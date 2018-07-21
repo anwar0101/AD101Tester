@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="AD101Tester.jnlp">
+  <information>
+    <title>AD101Tester</title>
+    <vendor>anwar</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="AD101Tester.jar" size="5721" download="eager" />
+    <jar href="lib\jna-4.5.1.jar" size="1440662" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="AD101Tester" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="ad101tester.AD101Tester"  name="AD101Tester" />
+  <update check="always"/>
+</jnlp>
