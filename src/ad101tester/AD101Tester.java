@@ -5,6 +5,9 @@
  */
 package ad101tester;
 
+import static java.lang.System.out;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -19,9 +22,9 @@ import javafx.stage.Stage;
  * @author anwar
  */
 public class AD101Tester extends Application {
-    
+
     private AD101Device cid = AD101Device.INSTANCE;
-    
+
     //params
     int MCU_BACKID = 0x07;	// Return Device ID
     int MCU_BACKSTATE = 0x08;	// Return Device State
@@ -35,7 +38,7 @@ public class AD101Tester extends Application {
     int MCU_BACKENABLE = 0xEE;
     int MCU_BACKMISSED = 0xAA;		// Missed call 
     int MCU_BACKTALK = 0xBB;		// Start Talk
-    
+
     int HKONSTATEPRA = 0x01; // hook on pr+  HOOKON_PRA
     int HKONSTATEPRB = 0x02;  // hook on pr-  HOOKON_PRR
     int HKONSTATENOPR = 0x03;  // have pr  HAVE_PR
@@ -47,14 +50,21 @@ public class AD101Tester extends Application {
     int NOHKPRA = 0x09; // NOHOOKPRA= 0x09, // no hook pr+
     int NOHKPRB = 0x0a; // NOHOOKPRR= 0x0a, // no hook pr-
     int NOHKNOPR = 0x0b; // NOHOOKNPR= 0x0b, // no hook no pr
-    
+
     int WM_USBLINEMSG = 1024 + 180;
-    
+
+    private static String[] msgs = {
+        "LED Off", "LED Off", "Red LED On", "Red LED Flash Slowly",
+        "Red LED Flash Quickly", "Green LED On", "Green LED Flash Slowly",
+        "Green LED Flash Quickly", "Yellow LED On", "Yellow LED Flash Slowly",
+        "Yellow LED Flash Quickly"
+    };
+
     @Override
     public void start(Stage primaryStage) {
-        
+
         Label total = new Label();
-        
+
         Button btnCount = new Button();
         btnCount.setText("check device");
         btnCount.setOnAction((ActionEvent event) -> {
@@ -62,35 +72,61 @@ public class AD101Tester extends Application {
             total.setText("Total : " + to);
             System.out.println("Total: " + to);
         });
-        
+
         Button btn = new Button();
         btn.setText("Init");
         btn.setOnAction((ActionEvent event) -> {
-            if(cid.AD101_InitDevice(0)){
+            if (cid.AD101_InitDevice(0)) {
                 System.out.println("success");
                 btn.setText("Initialized");
-                              
+                btn.setDisable(true);
+
                 //open all connected devices
                 total.setText("Total: " + cid.AD101_GetDevice());
-                
+
                 //setting call back function
-                cid.AD101_SetEventCallbackFun((int iLine, int iEvent, int iParam) -> {
-                    System.out.println("Incoming from line: " + iLine + " event: " + Integer.toHexString(iEvent) + " param: " + Integer.toHexString(iParam));
+                Thread t = new Thread(() -> {
+                    cid.AD101_SetEventCallbackFun((int iLine, int iEvent, int iParam) -> {
+                        System.out.println("Incoming from line: " + iLine + " event: " + Integer.toHexString(iEvent) + " param: " + Integer.toHexString(iParam));
+                    });
                 });
+
+                t.start();
+
             } else {
-                System.out.println("Try again.");
+                System.out.println("Port not initilized or used someone else");
             }
         });
-        
+
+        Button btnLeds = new Button();
+        btnLeds.setText("Led Checks");
+        btnLeds.setOnAction((ActionEvent t) -> {
+            btnLeds.setDisable(true);
+            int i = 0;
+            for (String msg : msgs) {
+                cid.AD101_SetLED(2, i++);
+                out.println(msg);
+                btnLeds.setText(msg);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(AD101Tester.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            btnLeds.setDisable(false);
+
+        });
+
         StackPane root = new StackPane();
         VBox vb = new VBox();
         vb.getChildren().add(btn);
         vb.getChildren().add(btnCount);
+        vb.getChildren().add(btnLeds);
         vb.getChildren().add(total);
         root.getChildren().add(vb);
-        
+
         Scene scene = new Scene(root, 300, 250);
-        
+
         primaryStage.setTitle("CID Tester");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -101,7 +137,6 @@ public class AD101Tester extends Application {
         super.stop(); //To change body of generated methods, choose Tools | Templates.
         cid.AD101_FreeDevice();
     }
-    
 
     /**
      * @param args the command line arguments
@@ -109,5 +144,5 @@ public class AD101Tester extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
