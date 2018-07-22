@@ -61,8 +61,8 @@ public class AD101Tester extends Application {
         "Green LED Flash Quickly", "Yellow LED On", "Yellow LED Flash Slowly",
         "Yellow LED Flash Quickly"
     };
-    
-    private Thread  t;
+
+    private Thread t;
 
     @Override
     public void start(Stage primaryStage) {
@@ -93,9 +93,9 @@ public class AD101Tester extends Application {
                     cid.AD101_SetEventCallbackFun((int iLine, int iEvent, int iParam) -> {
                         System.out.println("Line: " + iLine + " event: " + Integer.toHexString(iEvent)
                                 + " param: " + Integer.toHexString(iParam));
-                        
+
                         OnDeviceMsg(iLine, iEvent, iParam);
-                        
+
                     });
                 });
 
@@ -158,15 +158,15 @@ public class AD101Tester extends Application {
                 break;
 
             case MCU_BACKID: {
-                StringBuilder cpuVersion =new StringBuilder(128);
+                char[] cpuVersion = new char[128];
                 cid.AD101_GetCPUVersion(nLine, cpuVersion);
             }
             break;
 
             case MCU_BACKCID: {
-                StringBuilder szCallerID = new StringBuilder(128);
-                StringBuilder szName = new StringBuilder(128);
-                StringBuilder szTime = new StringBuilder(128);
+                char[] szCallerID = new char[128];
+                char[] szName = new char[128];
+                char[] szTime = new char[128];
 
                 int nLen = cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime);
                 out.println("Caller ID:" + szCallerID + ", Name: " + szName);
@@ -190,9 +190,9 @@ public class AD101Tester extends Application {
 
                     case HKOFFSTATEPRA: {
                         out.println("HOOK OFF PR+");
-                        StringBuilder szCallerID = new StringBuilder();
-                        StringBuilder szName = new StringBuilder();
-                        StringBuilder szTime = new StringBuilder();
+                        char[] szCallerID = new char[128];
+                        char[] szName = new char[128];
+                        char[] szTime = new char[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //set null for phone id
@@ -205,9 +205,9 @@ public class AD101Tester extends Application {
                     case HKOFFSTATEPRB: {
                         out.println("HOOK OFF PR-");
 
-                        StringBuilder szCallerID = new StringBuilder(128);
-                        StringBuilder szName = new StringBuilder(128);
-                        StringBuilder szTime = new StringBuilder(128);
+                        char[] szCallerID = new char[128];
+                        char[] szName = new char[128];
+                        char[] szTime = new char[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //set null phone id
@@ -219,9 +219,9 @@ public class AD101Tester extends Application {
                     case NO_LINE: {
                         out.println("No Line");
 
-                        StringBuilder szCallerID = new StringBuilder(128);
-                        StringBuilder szName = new StringBuilder(128);
-                        StringBuilder szTime = new StringBuilder(128);
+                        char[] szCallerID = new char[128];
+                        char[] szName = new char[128];
+                        char[] szTime = new char[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //no line
@@ -252,9 +252,9 @@ public class AD101Tester extends Application {
                     case NOHKNOPR: {
                         out.println("NO HOOK NOPR");
 
-                        StringBuilder szCallerID = new StringBuilder(128);
-                        StringBuilder szName = new StringBuilder(128);
-                        StringBuilder szTime = new StringBuilder(128);
+                        char[] szCallerID = new char[128];
+                        char[] szName = new char[128];
+                        char[] szTime = new char[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //not found
@@ -286,11 +286,11 @@ public class AD101Tester extends Application {
             break;
 
             case MCU_BACKDEVICE: {
-                StringBuilder szCPUVersion = new StringBuilder(128);
+                char[] szCPUVersion = new char[128];
 
                 //enable
                 cid.AD101_GetCPUVersion(nLine, szCPUVersion);
-                out.println("Version: " + szCPUVersion.toString());
+                out.println("Version: " + szCPUVersion);
 
             }
             break;
@@ -310,12 +310,12 @@ public class AD101Tester extends Application {
             break;
 
             case MCU_BACKCPUID: {
-                StringBuilder szCPUID = new StringBuilder(128);
+                char[] szCPUID = new char[128];
 
                 cid.AD101_GetCPUID(nLine, szCPUID);
 
                 //cpu id
-                out.println("CPUID : " + szCPUID.toString());
+                out.println("CPUID : " + szCPUID);
 
             }
             break;
@@ -339,7 +339,7 @@ public class AD101Tester extends Application {
 
     @Override
     public void stop() throws Exception {
-        new Thread(()->{
+        new Thread(() -> {
             cid.AD101_FreeDevice();
             try {
                 Thread.sleep(1000);
