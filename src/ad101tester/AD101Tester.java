@@ -61,6 +61,8 @@ public class AD101Tester extends Application {
         "Green LED Flash Quickly", "Yellow LED On", "Yellow LED Flash Slowly",
         "Yellow LED Flash Quickly"
     };
+    
+    private Thread  t;
 
     @Override
     public void start(Stage primaryStage) {
@@ -87,7 +89,7 @@ public class AD101Tester extends Application {
                 total.setText("Total: " + cid.AD101_GetDevice());
 
                 //setting call back function
-                Thread t = new Thread(() -> {
+                t = new Thread(() -> {
                     cid.AD101_SetEventCallbackFun((int iLine, int iEvent, int iParam) -> {
                         System.out.println("Line: " + iLine + " event: " + Integer.toHexString(iEvent)
                                 + " param: " + Integer.toHexString(iParam));
@@ -337,8 +339,16 @@ public class AD101Tester extends Application {
 
     @Override
     public void stop() throws Exception {
+        new Thread(()->{
+            cid.AD101_FreeDevice();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AD101Tester.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            t.stop();
+        }).start();
         super.stop(); //To change body of generated methods, choose Tools | Templates.
-        cid.AD101_FreeDevice();
     }
 
     /**
