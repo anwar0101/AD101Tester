@@ -52,15 +52,15 @@ public interface AD101Device extends Library {
     //set callback function for any event in device
     void AD101_SetEventCallbackFun(EVENTCALLBACKPROC fun);
     //get caller id
-    int AD101_GetCallerID(int nLine, String callerID, String name, String time);
+    int AD101_GetCallerID(int nLine, StringBuilder callerID, StringBuilder name, StringBuilder time);
   
-    int AD101_GetCPUVersion(int nLine, String szCPUVersion);
+    int AD101_GetCPUVersion(int nLine, StringBuilder szCPUVersion);
 
     // Start reading cpu id of device 
     int AD101_ReadCPUID(int nLine);
 
     // Get readed cpu id of device 
-    int AD101_GetCPUID(int nLine, String szCPUID);
+    int AD101_GetCPUID(int nLine, StringBuilder szCPUID);
 
     // Get dialed number 
     int AD101_GetDialDigit(int nLine, String szDialDigitBuffer);

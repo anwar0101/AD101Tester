@@ -158,15 +158,15 @@ public class AD101Tester extends Application {
                 break;
 
             case MCU_BACKID: {
-                String cpuVersion = "";
+                StringBuilder cpuVersion =new StringBuilder(128);
                 cid.AD101_GetCPUVersion(nLine, cpuVersion);
             }
             break;
 
             case MCU_BACKCID: {
-                String szCallerID = new String();
-                String szName = new String();
-                String szTime = new String();
+                StringBuilder szCallerID = new StringBuilder(128);
+                StringBuilder szName = new StringBuilder(128);
+                StringBuilder szTime = new StringBuilder(128);
 
                 int nLen = cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime);
                 out.println("Caller ID:" + szCallerID + ", Name: " + szName);
@@ -190,9 +190,9 @@ public class AD101Tester extends Application {
 
                     case HKOFFSTATEPRA: {
                         out.println("HOOK OFF PR+");
-                        String szCallerID = new String();
-                        String szName = new String();
-                        String szTime = new String();
+                        StringBuilder szCallerID = new StringBuilder();
+                        StringBuilder szName = new StringBuilder();
+                        StringBuilder szTime = new StringBuilder();
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //set null for phone id
@@ -205,9 +205,9 @@ public class AD101Tester extends Application {
                     case HKOFFSTATEPRB: {
                         out.println("HOOK OFF PR-");
 
-                        String szCallerID = new String();
-                        String szName = new String();
-                        String szTime = new String();
+                        StringBuilder szCallerID = new StringBuilder(128);
+                        StringBuilder szName = new StringBuilder(128);
+                        StringBuilder szTime = new StringBuilder(128);
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //set null phone id
@@ -219,9 +219,9 @@ public class AD101Tester extends Application {
                     case NO_LINE: {
                         out.println("No Line");
 
-                        String szCallerID = new String();
-                        String szName = new String();
-                        String szTime = new String();
+                        StringBuilder szCallerID = new StringBuilder(128);
+                        StringBuilder szName = new StringBuilder(128);
+                        StringBuilder szTime = new StringBuilder(128);
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //no line
@@ -252,9 +252,9 @@ public class AD101Tester extends Application {
                     case NOHKNOPR: {
                         out.println("NO HOOK NOPR");
 
-                        String szCallerID = new String();
-                        String szName = new String();
-                        String szTime = new String();
+                        StringBuilder szCallerID = new StringBuilder(128);
+                        StringBuilder szName = new StringBuilder(128);
+                        StringBuilder szTime = new StringBuilder(128);
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //not found
@@ -286,11 +286,11 @@ public class AD101Tester extends Application {
             break;
 
             case MCU_BACKDEVICE: {
-                String szCPUVersion = new String();
+                StringBuilder szCPUVersion = new StringBuilder(128);
 
                 //enable
                 cid.AD101_GetCPUVersion(nLine, szCPUVersion);
-                out.println("Version: " + szCPUVersion);
+                out.println("Version: " + szCPUVersion.toString());
 
             }
             break;
@@ -310,12 +310,12 @@ public class AD101Tester extends Application {
             break;
 
             case MCU_BACKCPUID: {
-                String szCPUID = new String();
+                StringBuilder szCPUID = new StringBuilder(128);
 
                 cid.AD101_GetCPUID(nLine, szCPUID);
 
                 //cpu id
-                out.println("CPUID : " + szCPUID);
+                out.println("CPUID : " + szCPUID.toString());
 
             }
             break;
