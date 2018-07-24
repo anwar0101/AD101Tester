@@ -52,7 +52,7 @@ public interface AD101Device extends Library {
     //set callback function for any event in device
     void AD101_SetEventCallbackFun(EVENTCALLBACKPROC fun);
     //get caller id
-    int AD101_GetCallerID(int nLine, char[] callerID, char[] name, char[] time);
+    int AD101_GetCallerID(int nLine, byte[] callerID, byte[] name, byte[] time);
   
     int AD101_GetCPUVersion(int nLine, byte[] szCPUVersion);
 
@@ -63,10 +63,10 @@ public interface AD101Device extends Library {
     int AD101_GetCPUID(int nLine, byte[] szCPUID);
 
     // Get dialed number 
-    int AD101_GetDialDigit(int nLine, String szDialDigitBuffer);
+    int AD101_GetDialDigit(int nLine, byte[] szDialDigitBuffer);
 
     // Get collateral phone dialed number 
-    int AD101_GetCollateralDialDigit(int nLine, String szDialDigitBuffer);
+    int AD101_GetCollateralDialDigit(int nLine, byte[] szDialDigitBuffer);
 
     // Get last line state 
     int AD101_GetState(int nLine);

@@ -170,12 +170,13 @@ public class AD101Tester extends Application {
             break;
 
             case MCU_BACKCID: {
-                char[] szCallerID = new char[128];
-                char[] szName = new char[128];
-                char[] szTime = new char[128];
+                byte[] szCallerID = new byte[128];
+                byte[] szName = new byte[128];
+                byte[] szTime = new byte[128];
 
                 int nLen = cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime);
-                out.println("Caller ID:" + new String(szCallerID) + ", Name: " + new String(szName));
+                out.println("Caller ID:" + Native.toString(szCallerID)
+                        + ", Name: " + Native.toString(szName) + ", Time: " + Native.toString(szTime));
             }
             break;
 
@@ -195,9 +196,9 @@ public class AD101Tester extends Application {
 
                     case HKOFFSTATEPRA: {
                         out.println("HOOK OFF PR+");
-                        char[] szCallerID = new char[128];
-                        char[] szName = new char[128];
-                        char[] szTime = new char[128];
+                        byte[] szCallerID = new byte[128];
+                        byte[] szName = new byte[128];
+                        byte[] szTime = new byte[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //set null for phone id
@@ -210,9 +211,9 @@ public class AD101Tester extends Application {
                     case HKOFFSTATEPRB: {
                         out.println("HOOK OFF PR-");
 
-                        char[] szCallerID = new char[128];
-                        char[] szName = new char[128];
-                        char[] szTime = new char[128];
+                        byte[] szCallerID = new byte[128];
+                        byte[] szName = new byte[128];
+                        byte[] szTime = new byte[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //set null phone id
@@ -224,9 +225,9 @@ public class AD101Tester extends Application {
                     case NO_LINE: {
                         out.println("No Line");
 
-                        char[] szCallerID = new char[128];
-                        char[] szName = new char[128];
-                        char[] szTime = new char[128];
+                        byte[] szCallerID = new byte[128];
+                        byte[] szName = new byte[128];
+                        byte[] szTime = new byte[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //no line
@@ -257,9 +258,9 @@ public class AD101Tester extends Application {
                     case NOHKNOPR: {
                         out.println("NO HOOK NOPR");
 
-                        char[] szCallerID = new char[128];
-                        char[] szName = new char[128];
-                        char[] szTime = new char[128];
+                        byte[] szCallerID = new byte[128];
+                        byte[] szName = new byte[128];
+                        byte[] szTime = new byte[128];
 
                         if (cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime) < 1 || cid.AD101_GetRingIndex(nLine) < 1) {
                             //not found
@@ -276,17 +277,17 @@ public class AD101Tester extends Application {
             break;
 
             case MCU_BACKDIGIT: {
-                String szDialDigit = new String();
+                byte[] szDialDigit = new byte[128];
                 cid.AD101_GetDialDigit(nLine, szDialDigit);
-                out.println("Dial digit: " + szDialDigit);
+                out.println("Dial digit: " + Native.toString(szDialDigit));
             }
             break;
 
             case MCU_BACKCOLLATERAL: {
-                String szDialDigit = new String();
+                byte[] szDialDigit = new byte[128];
 
                 cid.AD101_GetCollateralDialDigit(nLine, szDialDigit);
-                out.println("DialDigit : " + szDialDigit);
+                out.println("DialDigit : " + Native.toString(szDialDigit));
             }
             break;
 
