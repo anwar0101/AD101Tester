@@ -60,7 +60,7 @@ public interface AD101Device extends Library {
     int AD101_ReadCPUID(int nLine);
 
     // Get readed cpu id of device 
-    int AD101_GetCPUID(int nLine, char[] szCPUID);
+    int AD101_GetCPUID(int nLine, byte[] szCPUID);
 
     // Get dialed number 
     int AD101_GetDialDigit(int nLine, String szDialDigitBuffer);

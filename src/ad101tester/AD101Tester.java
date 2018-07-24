@@ -73,9 +73,13 @@ public class AD101Tester extends Application {
         Button btnCount = new Button();
         btnCount.setText("Check device");
         btnCount.setOnAction((ActionEvent event) -> {
-            int to = cid.AD101_GetCurDevCount();
-            total.setText("Total : " + to);
-            System.out.println("Total: " + to);
+            byte[] szCPUID = new byte[128];
+
+            cid.AD101_GetCPUVersion(0, szCPUID);
+
+            //cpu id
+            out.println("CPUID : " + Native.toString(szCPUID));
+            total.setText("Version: " + Native.toString(szCPUID));
         });
 
         Button btn = new Button();
@@ -94,9 +98,9 @@ public class AD101Tester extends Application {
                     cid.AD101_SetEventCallbackFun((int iLine, int iEvent, int iParam) -> {
                         System.out.println("Line: " + iLine + " event: " + Integer.toHexString(iEvent)
                                 + " param: " + Integer.toHexString(iParam));
-                        
+
                         OnDeviceMsg(iLine, iEvent, iParam);
-                        
+
                     });
                 });
 
@@ -307,17 +311,17 @@ public class AD101Tester extends Application {
                 out.println(tagParameter.nHookOff);
                 out.println(tagParameter.nStopCID);
                 out.println(tagParameter.nNoLine);
-                
+
             }
             break;
 
             case MCU_BACKCPUID: {
-                char[] szCPUID = new char[128];
+                byte[] szCPUID = new byte[128];
 
                 cid.AD101_GetCPUID(nLine, szCPUID);
 
                 //cpu id
-                out.println("CPUID : " + new String(szCPUID));
+                out.println("CPUID : " + Native.toString(szCPUID));
 
             }
             break;
