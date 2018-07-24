@@ -54,7 +54,7 @@ public interface AD101Device extends Library {
     //get caller id
     int AD101_GetCallerID(int nLine, char[] callerID, char[] name, char[] time);
   
-    int AD101_GetCPUVersion(int nLine, char[] szCPUVersion);
+    int AD101_GetCPUVersion(int nLine, byte[] szCPUVersion);
 
     // Start reading cpu id of device 
     int AD101_ReadCPUID(int nLine);

@@ -6,6 +6,7 @@
 package ad101tester;
 
 import ad101tester.AD101Device.AD101DEVICEPARAMETER;
+import com.sun.jna.Native;
 import static java.lang.System.out;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -158,9 +159,9 @@ public class AD101Tester extends Application {
                 break;
 
             case MCU_BACKID: {
-                char[] cpuVersion = new char[128];
+                byte[] cpuVersion = new byte[128];
                 cid.AD101_GetCPUVersion(nLine, cpuVersion);
-                out.println("Version: " + new String(cpuVersion));
+                out.println("Version: " + Native.toString(cpuVersion));
             }
             break;
 
@@ -286,11 +287,11 @@ public class AD101Tester extends Application {
             break;
 
             case MCU_BACKDEVICE: {
-                char[] szCPUVersion = new char[128];
+                byte[] szCPUVersion = new byte[128];
 
                 //enable
                 cid.AD101_GetCPUVersion(nLine, szCPUVersion);
-                out.println("Version: " + new String(szCPUVersion));
+                out.println("Version: " + Native.toString(szCPUVersion));
 
             }
             break;
