@@ -70,7 +70,7 @@ public class AD101Tester extends Application {
         Label total = new Label();
 
         Button btnCount = new Button();
-        btnCount.setText("check device");
+        btnCount.setText("Check device");
         btnCount.setOnAction((ActionEvent event) -> {
             int to = cid.AD101_GetCurDevCount();
             total.setText("Total : " + to);
@@ -81,7 +81,7 @@ public class AD101Tester extends Application {
         btn.setText("Init");
         btn.setOnAction((ActionEvent event) -> {
             if (cid.AD101_InitDevice(0)) {
-                System.out.println("success");
+                System.out.println("Success");
                 btn.setText("Initialized");
                 btn.setDisable(true);
 
@@ -93,9 +93,9 @@ public class AD101Tester extends Application {
                     cid.AD101_SetEventCallbackFun((int iLine, int iEvent, int iParam) -> {
                         System.out.println("Line: " + iLine + " event: " + Integer.toHexString(iEvent)
                                 + " param: " + Integer.toHexString(iParam));
-
+                        
                         OnDeviceMsg(iLine, iEvent, iParam);
-
+                        
                     });
                 });
 
@@ -160,6 +160,7 @@ public class AD101Tester extends Application {
             case MCU_BACKID: {
                 char[] cpuVersion = new char[128];
                 cid.AD101_GetCPUVersion(nLine, cpuVersion);
+                out.println("Version: " + new String(cpuVersion));
             }
             break;
 
@@ -169,14 +170,13 @@ public class AD101Tester extends Application {
                 char[] szTime = new char[128];
 
                 int nLen = cid.AD101_GetCallerID(nLine, szCallerID, szName, szTime);
-                out.println("Caller ID:" + szCallerID + ", Name: " + szName);
+                out.println("Caller ID:" + new String(szCallerID) + ", Name: " + new String(szName));
             }
             break;
 
             case MCU_BACKSTATE: {
                 switch (iParam) {
                     case HKONSTATEPRA:
-                        //
                         out.println("HOOK ON PR+");
                         break;
 
@@ -232,7 +232,7 @@ public class AD101Tester extends Application {
                     break;
 
                     case RINGONSTATE: {
-                        String szRing = "Ring:" + String.format("{0:D2}", cid.AD101_GetRingIndex(nLine));
+                        String szRing = "Ring:" + String.format("%d", cid.AD101_GetRingIndex(nLine));
                         out.println(szRing);
                     }
                     break;
@@ -290,7 +290,7 @@ public class AD101Tester extends Application {
 
                 //enable
                 cid.AD101_GetCPUVersion(nLine, szCPUVersion);
-                out.println("Version: " + szCPUVersion);
+                out.println("Version: " + new String(szCPUVersion));
 
             }
             break;
@@ -306,6 +306,7 @@ public class AD101Tester extends Application {
                 out.println(tagParameter.nHookOff);
                 out.println(tagParameter.nStopCID);
                 out.println(tagParameter.nNoLine);
+                
             }
             break;
 
@@ -315,7 +316,7 @@ public class AD101Tester extends Application {
                 cid.AD101_GetCPUID(nLine, szCPUID);
 
                 //cpu id
-                out.println("CPUID : " + szCPUID);
+                out.println("CPUID : " + new String(szCPUID));
 
             }
             break;
@@ -327,7 +328,7 @@ public class AD101Tester extends Application {
 
             case MCU_BACKTALK: {
                 String strTalk;
-                strTalk = String.format("{0:D2}", iParam) + "S";
+                strTalk = String.format("%d", iParam) + "S";
                 out.println(strTalk);
             }
             break;
